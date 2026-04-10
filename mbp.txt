@@ -1,0 +1,84 @@
+# terminal utilities
+homebrew
+dust
+fastfetch
+iperf3
+iproute2mac
+llmfit
+nano
+python
+rclone
+starship
+zsh-autosuggestions
+zsh-syntax-highlighting
+
+# terminal apps
+codex
+claude code
+opencode
+nodejs (via nvm)
+bun
+
+# gui apps
+adobe creative cloud
+affinity
+bambu studio
+betterdisplay
+caffeine
+discord
+docker
+ente auth
+ghostty
+google chrome
+helium browser
+localsend
+maccy
+microsoft edge
+microsoft teams
+motu m series
+moonlight
+obs
+ollama
+proton mail
+proton vpn
+raycast
+rectangle
+steam
+stremio
+tailscale
+telegram
+windows app
+wispr flow
+zen
+zoom
+
+# homebrew casks
+font-inter
+font-jetbrains-mono-nerd-font
+font-sf-mono-nerd-font-ligaturized
+microsoft-excel
+microsoft-powerpoint
+microsoft-word
+
+# ghostty config (~/.config/ghostty/config)
+font-family = "JetBrains Mono Nerd Font"
+font-size = 15
+theme = Moonfly
+shell-integration-features = ssh-terminfo,ssh-env,sudo
+window-padding-x = 16
+
+# dock
+autohide = true
+autohide-delay = 0.0
+autohide-time-modifier = 0.5
+
+# finder
+show all extensions = true
+show path = true
+show status bar = true
+
+# trackpad
+natural scroll direction = false
+tap to click = true
+three finger dragging = true
+
