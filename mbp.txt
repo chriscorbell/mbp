@@ -2,6 +2,8 @@
 homebrew
 dust
 fastfetch
+git
+gh-cli
 iperf3
 iproute2mac
 llmfit
