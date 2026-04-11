@@ -25,6 +25,9 @@ drag windows to left or right edge of screen to tile = disabled
 drag windows to menu bar to fill screen = disabled
 hold option key while dragging windows to tile = disabled
 
+# display
+true tone = disabled
+
 # lock screen
 turn display off on power adapter when inactive = never
 
@@ -32,17 +35,16 @@ turn display off on power adapter when inactive = never
 key repeat rate = fastest
 delay until repeat = shortest
 input sources = us -> edit:
-- correct spelling automatically = off
-- capitalize words automatically = off
-- show inline predictive text = off
-- show suggested replies = off
-- add period with double-space = off
-- use smart quotes and dashes = off
+- correct spelling automatically = disabled
+- capitalize words automatically = disabled
+- show inline predictive text = disabled
+- show suggested replies = disabled
+- add period with double-space = disabled
+- use smart quotes and dashes = disabled
 
 # trackpad
 tap to click = enabled
 natural scrolling = disabled
-
 
 # terminal utilities
 homebrew
