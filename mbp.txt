@@ -55,8 +55,7 @@ tap to click = enabled
 natural scrolling = disabled
 
 # terminal utilities
-homebrew
-
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install dust fastfetch git eza bat lazydocker lazygit atuin gh iperf3 iproute2mac llmfit nano nanorc python rclone starship zsh-autosuggestions zsh-syntax-highlighting
 
 # terminal apps
