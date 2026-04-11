@@ -1,3 +1,49 @@
+# battery
+charge limit = 80%
+energy mode on battery = auto
+energy mode on power adapter = high
+
+# accessibility
+pointer control -> trackpad options:
+- use trackpad for dragging = enabled
+- dragging style = three finger drag
+
+# menu bar
+clock: show time with seconds = enabled
+remove spotlight
+battery: show percentage = enabled
+
+# desktop & dock
+remove all items from dock
+set dock to autohide
+minimize window animation = scale
+title bar double-click action = fill
+show items = uncheck both on desktop and in stage manager
+click wallpaper to show desktop = only in stage manager
+show widgets = uncheck both on desktop and in stage manager
+drag windows to left or right edge of screen to tile = disabled
+drag windows to menu bar to fill screen = disabled
+hold option key while dragging windows to tile = disabled
+
+# lock screen
+turn display off on power adapter when inactive = never
+
+# keyboard
+key repeat rate = fastest
+delay until repeat = shortest
+input sources = us -> edit:
+- correct spelling automatically = off
+- capitalize words automatically = off
+- show inline predictive text = off
+- show suggested replies = off
+- add period with double-space = off
+- use smart quotes and dashes = off
+
+# trackpad
+tap to click = enabled
+natural scrolling = disabled
+
+
 # terminal utilities
 homebrew
 dust
