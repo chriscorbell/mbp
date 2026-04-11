@@ -57,7 +57,7 @@ natural scrolling = disabled
 # terminal utilities
 homebrew
 
-brew install dust fastfetch git eza bat lazydocker lazygit atuin gh iperf3 iproute2mac llmfit python rclone starship zsh-autosuggestions zsh-syntax-highlighting
+brew install dust fastfetch git eza bat lazydocker lazygit atuin gh iperf3 iproute2mac llmfit nano nanorc python rclone starship zsh-autosuggestions zsh-syntax-highlighting
 
 # terminal apps
 codex
