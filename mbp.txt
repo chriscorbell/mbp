@@ -58,6 +58,9 @@ natural scrolling = disabled
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install dust fastfetch git eza bat lazydocker lazygit atuin gh iperf3 iproute2mac llmfit nano nanorc python rclone starship zsh-autosuggestions zsh-syntax-highlighting
 
+# homebrew casks
+brew install --cask font-inter font-jetbrains-mono-nerd-font font-sf-mono-nerd-font-ligaturized microsoft-excel microsoft-powerpoint microsoft-word
+
 # terminal apps
 codex
 claude code
@@ -97,6 +100,3 @@ windows app
 wispr flow
 zen
 zoom
-
-# homebrew casks
-brew install --cask font-inter font-jetbrains-mono-nerd-font font-sf-mono-nerd-font-ligaturized microsoft-excel microsoft-powerpoint microsoft-word 
