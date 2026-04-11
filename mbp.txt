@@ -24,6 +24,14 @@ show widgets = uncheck both on desktop and in stage manager
 drag windows to left or right edge of screen to tile = disabled
 drag windows to menu bar to fill screen = disabled
 hold option key while dragging windows to tile = disabled
+dock autohide = true
+dock autohide-delay = 0.0
+dock autohide-time-modifier = 0.5
+
+# finder
+show all extensions = true
+show path = true
+show status bar = true
 
 # display
 true tone = disabled
@@ -48,19 +56,8 @@ natural scrolling = disabled
 
 # terminal utilities
 homebrew
-dust
-fastfetch
-git
-gh-cli
-iperf3
-iproute2mac
-llmfit
-nano
-python
-rclone
-starship
-zsh-autosuggestions
-zsh-syntax-highlighting
+
+brew install dust fastfetch git eza bat lazydocker lazygit atuin gh iperf3 iproute2mac llmfit python rclone starship zsh-autosuggestions zsh-syntax-highlighting
 
 # terminal apps
 codex
@@ -103,32 +100,4 @@ zen
 zoom
 
 # homebrew casks
-font-inter
-font-jetbrains-mono-nerd-font
-font-sf-mono-nerd-font-ligaturized
-microsoft-excel
-microsoft-powerpoint
-microsoft-word
-
-# ghostty config (~/.config/ghostty/config)
-font-family = "JetBrains Mono Nerd Font"
-font-size = 15
-theme = Moonfly
-shell-integration-features = ssh-terminfo,ssh-env,sudo
-window-padding-x = 16
-
-# dock
-autohide = true
-autohide-delay = 0.0
-autohide-time-modifier = 0.5
-
-# finder
-show all extensions = true
-show path = true
-show status bar = true
-
-# trackpad
-natural scroll direction = false
-tap to click = true
-three finger dragging = true
-
+brew install --cask font-inter font-jetbrains-mono-nerd-font font-sf-mono-nerd-font-ligaturized microsoft-excel microsoft-powerpoint microsoft-word 
