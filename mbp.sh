@@ -156,7 +156,6 @@ init_homebrew() {
 ensure_taps() {
 	local taps=(
 		anomalyco/tap
-		homebrew/cask-fonts
 		oven-sh/bun
 		steipete/tap
 	)
