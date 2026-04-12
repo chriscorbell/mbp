@@ -103,7 +103,7 @@ log() {
 }
 
 configure_passwordless_sudo() {
-	local username sudoers_dir sudoers_file temp_file sudoers_line
+	local username sudoers_dir sudoers_file temp_file sudoers_line cleanup_command
 
 	username="$(id -un)"
 	sudoers_dir="/etc/sudoers.d"
@@ -111,7 +111,8 @@ configure_passwordless_sudo() {
 	sudoers_line="$username ALL=(ALL) NOPASSWD: ALL"
 	temp_file="$(mktemp)"
 
-	trap 'rm -f "$temp_file"' RETURN
+	printf -v cleanup_command 'rm -f -- %q; trap - RETURN' "$temp_file"
+	trap "$cleanup_command" RETURN
 
 	if sudo test -f "$sudoers_file" && sudo grep -Fxq "$sudoers_line" "$sudoers_file"; then
 		log "Passwordless sudo already configured for $username"
@@ -198,20 +199,66 @@ install_casks() {
 install_config_dir() {
 	local source_dir="$SCRIPT_DIR/.config"
 	local target_dir="$HOME/.config"
+	local manifest_file="$target_dir/.mbp-managed-entries"
+	local source_path entry target_path previous_entry
+	local current_entries=()
 
 	if [[ ! -d "$source_dir" ]]; then
 		return
 	fi
 
 	mkdir -p "$target_dir"
-	rsync -a --exclude '.DS_Store' "$source_dir/" "$target_dir/"
+
+	shopt -s nullglob dotglob
+	for source_path in "$source_dir"/*; do
+		entry="${source_path##*/}"
+
+		if [[ "$entry" == ".DS_Store" ]]; then
+			continue
+		fi
+
+		current_entries+=("$entry")
+		target_path="$target_dir/$entry"
+
+		if [[ -d "$source_path" ]]; then
+			mkdir -p "$target_path"
+			rsync -a --delete --exclude '.DS_Store' "$source_path/" "$target_path/"
+		else
+			rsync -a --exclude '.DS_Store' "$source_path" "$target_path"
+		fi
+	done
+	shopt -u nullglob dotglob
+
+	if [[ -f "$manifest_file" ]]; then
+		while IFS= read -r previous_entry; do
+			local is_current=0
+			local current_entry
+
+			if [[ -z "$previous_entry" ]]; then
+				continue
+			fi
+
+			for current_entry in "${current_entries[@]}"; do
+				if [[ "$current_entry" == "$previous_entry" ]]; then
+					is_current=1
+					break
+				fi
+			done
+
+			if [[ "$is_current" -eq 0 ]]; then
+				rm -rf "$target_dir/$previous_entry"
+			fi
+		done < "$manifest_file"
+	fi
+
+	printf '%s\n' "${current_entries[@]}" > "$manifest_file"
 	log "Installed .config to $target_dir"
 }
 
 install_zshrc() {
 	local source_file="$SCRIPT_DIR/.zshrc"
 	local target_file="$HOME/.zshrc"
-	local backup_file
+	local backup_file="$HOME/.zshrc.pre-mbp.backup"
 
 	if [[ ! -f "$source_file" ]]; then
 		return
@@ -223,13 +270,28 @@ install_zshrc() {
 	fi
 
 	if [[ -f "$target_file" ]]; then
-		backup_file="$HOME/.zshrc.backup.$(date +%Y%m%d%H%M%S)"
-		cp "$target_file" "$backup_file"
-		log "Backed up existing .zshrc to $backup_file"
+		if [[ ! -f "$backup_file" ]]; then
+			cp "$target_file" "$backup_file"
+			log "Backed up existing .zshrc to $backup_file"
+		else
+			log "Preserving existing .zshrc backup at $backup_file"
+		fi
 	fi
 
 	cp "$source_file" "$target_file"
 	log "Installed .zshrc to $target_file"
+}
+
+install_hushlogin() {
+	local target_file="$HOME/.hushlogin"
+
+	if [[ -f "$target_file" ]]; then
+		log ".hushlogin already exists"
+		return
+	fi
+
+	touch "$target_file"
+	log "Created $target_file"
 }
 
 main() {
@@ -246,6 +308,7 @@ main() {
 	install_casks
 	install_config_dir
 	install_zshrc
+	install_hushlogin
 
 	log "Setup complete"
 	echo "Open a new terminal session or run: exec zsh"
