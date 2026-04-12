@@ -311,6 +311,36 @@ install_hushlogin() {
 	log "Created $target_file"
 }
 
+install_vscode_settings() {
+	local source_file="$SCRIPT_DIR/vscode/settings.json"
+	local target_dir="$HOME/Library/Application Support/Code/User"
+	local target_file="$target_dir/settings.json"
+	local backup_file="$target_dir/settings.json.pre-mbp.backup"
+
+	if [[ ! -f "$source_file" ]]; then
+		return
+	fi
+
+	mkdir -p "$target_dir"
+
+	if [[ -f "$target_file" ]] && cmp -s "$source_file" "$target_file"; then
+		log "VS Code settings already match repo copy"
+		return
+	fi
+
+	if [[ -f "$target_file" ]]; then
+		if [[ ! -f "$backup_file" ]]; then
+			cp "$target_file" "$backup_file"
+			log "Backed up existing VS Code settings to $backup_file"
+		else
+			log "Preserving existing VS Code settings backup at $backup_file"
+		fi
+	fi
+
+	cp "$source_file" "$target_file"
+	log "Installed VS Code settings to $target_file"
+}
+
 install_vscode_extensions() {
 	local installed_extensions extension code_cmd
 
@@ -349,6 +379,7 @@ main() {
 	ensure_taps
 	install_formulae
 	install_casks
+	install_vscode_settings
 	install_vscode_extensions
 	install_config_dir
 	install_zshrc

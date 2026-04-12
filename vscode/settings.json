@@ -1,0 +1,33 @@
+{
+	"workbench.startupEditor": "none",
+	"workbench.activityBar.location": "top",
+	"workbench.sideBar.location": "right",
+	"editor.fontSize": 14,
+	"editor.formatOnSave": true,
+	"files.autoSave": "afterDelay",
+	"editor.fontFamily": "'JetBrainsMono Nerd Font'",
+	"editor.wordWrap": "on",
+	"chat.agent.maxRequests": 10000,
+	"editor.formatOnPaste": true,
+	"editor.smoothScrolling": true,
+	"editor.cursorSmoothCaretAnimation": "on",
+	"workbench.list.smoothScrolling": true,
+	"terminal.integrated.smoothScrolling": true,
+	"editor.cursorBlinking": "smooth",
+	"chat.tools.global.autoApprove": true,
+	"chat.tools.edits.autoApprove": {
+		"**/.vscode/*.json": true,
+		"**/.git/**": true,
+		"**/{package.json,server.xml,build.rs,web.config,.gitattributes,.env}": true,
+		"**/*.{code-workspace,csproj,fsproj,vbproj,vcxproj,proj,targets,props}": true,
+		"**/*.lock": true,
+		"**/*-lock.{yaml,json}": true
+	},
+	"chatgpt.followUpQueueMode": "steer",
+	"chat.mcp.gallery.enabled": true,
+	"redhat.telemetry.enabled": false,
+	"markdown-preview-enhanced.previewTheme": "atom-dark.css",
+	"chat.tools.terminal.outputLocation": "terminal",
+	"editor.minimap.enabled": false,
+	"terminal.integrated.initialHint": false
+}
