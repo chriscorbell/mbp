@@ -1,19 +1,39 @@
-# battery
+# mbp
+
+this is a setup script for macOS that does the following:
+
+- enables passwordless sudo
+- installs homebrew
+- uses homebrew to install my cli packages and gui apps
+- implements my dotfiles
+
+### installation
+
+clone or download the repo, navigate into the repo directory with terminal and run `./mbp.sh`
+
+# macOS settings
+
+### battery
+
 charge limit = 80%
 energy mode on battery = auto
 energy mode on power adapter = high
 
-# accessibility
+### accessibility
+
 pointer control -> trackpad options:
+
 - use trackpad for dragging = enabled
 - dragging style = three finger drag
 
-# menu bar
+### menu bar
+
 clock: show time with seconds = enabled
 remove spotlight
 battery: show percentage = enabled
 
-# desktop & dock
+### desktop & dock
+
 remove all items from dock
 set dock to autohide
 minimize window animation = scale
@@ -28,21 +48,26 @@ dock autohide = true
 dock autohide-delay = 0.0
 dock autohide-time-modifier = 0.5
 
-# finder
+### finder
+
 show all extensions = true
 show path = true
 show status bar = true
 
-# display
+### display
+
 true tone = disabled
 
-# lock screen
+### lock screen
+
 turn display off on power adapter when inactive = never
 
-# keyboard
+### keyboard
+
 key repeat rate = fastest
 delay until repeat = shortest
 input sources = us -> edit:
+
 - correct spelling automatically = disabled
 - capitalize words automatically = disabled
 - show inline predictive text = disabled
@@ -50,6 +75,7 @@ input sources = us -> edit:
 - add period with double-space = disabled
 - use smart quotes and dashes = disabled
 
-# trackpad
+### trackpad
+
 tap to click = enabled
 natural scrolling = disabled
