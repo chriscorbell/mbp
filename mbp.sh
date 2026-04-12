@@ -98,6 +98,23 @@ casks=(
 	zoom
 )
 
+vscode_extensions=(
+	anthropic.claude-code
+	dbaeumer.vscode-eslint
+	ecmel.vscode-html-css
+	esbenp.prettier-vscode
+	github.copilot-chat
+	github.vscode-github-actions
+	golang.go
+	ms-vscode-remote.remote-ssh
+	ms-vscode-remote.remote-ssh-edit
+	ms-vscode.live-server
+	ms-vscode.remote-explorer
+	openai.chatgpt
+	redhat.vscode-yaml
+	shd101wyy.markdown-preview-enhanced
+)
+
 log() {
 	printf '\n==> %s\n' "$1"
 }
@@ -294,6 +311,32 @@ install_hushlogin() {
 	log "Created $target_file"
 }
 
+install_vscode_extensions() {
+	local installed_extensions extension code_cmd
+
+	if command -v code >/dev/null 2>&1; then
+		code_cmd="$(command -v code)"
+	elif [[ -x "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ]]; then
+		code_cmd="/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
+	else
+		log "Skipping VS Code extensions because the VS Code CLI is unavailable"
+		return
+	fi
+
+	installed_extensions="$("$code_cmd" --list-extensions 2>/dev/null || true)"
+
+	log "Installing VS Code extensions"
+	for extension in "${vscode_extensions[@]}"; do
+		if printf '%s\n' "$installed_extensions" | grep -Fxq "$extension"; then
+			printf 'Already installed: %s\n' "$extension"
+			continue
+		fi
+
+		"$code_cmd" --install-extension "$extension"
+		installed_extensions="${installed_extensions}"$'\n'"$extension"
+	done
+}
+
 main() {
 	require_macos
 	configure_passwordless_sudo
@@ -306,6 +349,7 @@ main() {
 	ensure_taps
 	install_formulae
 	install_casks
+	install_vscode_extensions
 	install_config_dir
 	install_zshrc
 	install_hushlogin
