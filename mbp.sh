@@ -89,6 +89,7 @@ casks=(
 	steam
 	codexbar
 	stremio
+	t3-code
 	tailscale-app
 	telegram
 	windows-app
