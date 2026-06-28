@@ -12,7 +12,6 @@ $git_branch\
 $git_state\
 $git_status\
 $cmd_duration\
-$python\
 $character"""
 
 [os]
@@ -111,6 +110,7 @@ format = "[$duration]($style) "
 style = "yellow"
 
 [python]
+disabled = true
 format = "[$virtualenv]($style) "
 style = "bright-black"
 detect_extensions = []

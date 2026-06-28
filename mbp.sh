@@ -5,11 +5,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 formulae=(
+	adb-enhanced
 	anomalyco/tap/opencode
 	atuin
 	bat
 	bitwarden-cli
 	btop
+	cmatrix
+	dart-sass
 	deno
 	direnv
 	dust
@@ -20,6 +23,9 @@ formulae=(
 	fzf
 	gh
 	git
+	go
+	gstreamer
+	hugo
 	iperf3
 	iproute2mac
 	jq
@@ -27,22 +33,31 @@ formulae=(
 	lazydocker
 	lazygit
 	llmfit
+	mactop
 	make
 	nano
 	nanorc
 	node
+	nmap
 	npm
 	oven-sh/bun/bun
+	pandoc
+	philocalyst/tap/caligula
 	pnpm
+	potrace
 	python
 	rclone
 	ripgrep
 	starship
+	tree
 	uv
 	volta
 	watchexec
+	wimlib
+	woff2
 	yarn
 	yq
+	yt-dlp
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 )
@@ -50,6 +65,7 @@ formulae=(
 casks=(
 	adobe-creative-cloud
 	affinity
+	android-platform-tools
 	bambu-studio
 	betterdisplay
 	bitwarden
@@ -59,10 +75,12 @@ casks=(
 	claude-code@latest
 	codex
 	codex-app
+	codexbar
 	discord
 	dockdoor
-	docker-desktop
 	ente-auth
+	finicky
+	xykong/tap/flux-markdown
 	font-inter
 	font-jetbrains-mono-nerd-font
 	font-sf-mono-nerd-font-ligaturized
@@ -76,25 +94,34 @@ casks=(
 	maccy
 	microsoft-edge
 	microsoft-excel
+	microsoft-outlook
 	microsoft-powerpoint
 	microsoft-teams
 	microsoft-word
 	moonlight
 	motu-m-series
+	mp3tag
 	obs
 	opencode-desktop
+	orbstack
+	pika
 	proton-mail
+	raspberry-pi-imager
 	raycast
 	rectangle
+	stats
 	steam
-	codexbar
 	stremio
+	supacode
 	t3-code
 	tailscale-app
 	telegram
+	utm
 	windows-app
 	visual-studio-code
+	vlc
 	wispr-flow
+	zed
 	zen
 	zoom
 )
@@ -176,7 +203,9 @@ ensure_taps() {
 	local taps=(
 		anomalyco/tap
 		oven-sh/bun
+		philocalyst/tap
 		steipete/tap
+		xykong/tap
 	)
 
 	log "Adding required taps"
@@ -212,6 +241,15 @@ install_casks() {
 
 		brew install --cask "$package"
 	done
+}
+
+configure_macos_defaults() {
+	log "Configuring macOS defaults"
+	defaults write com.apple.dock autohide -bool true
+	defaults write com.apple.dock autohide-delay -float 0
+	defaults write com.apple.dock autohide-time-modifier -float 0.5
+	defaults write com.apple.dock persistent-apps -array
+	killall Dock >/dev/null 2>&1 || true
 }
 
 install_config_dir() {
@@ -385,6 +423,7 @@ main() {
 	install_config_dir
 	install_zshrc
 	install_hushlogin
+	configure_macos_defaults
 
 	log "Setup complete"
 	echo "Open a new terminal session or run: exec zsh"
