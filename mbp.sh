@@ -35,6 +35,7 @@ formulae=(
 	llmfit
 	mactop
 	make
+	mas
 	nano
 	nanorc
 	node
@@ -66,6 +67,7 @@ casks=(
 	adobe-creative-cloud
 	affinity
 	android-platform-tools
+	balenaetcher
 	bambu-studio
 	betterdisplay
 	bitwarden
@@ -73,9 +75,12 @@ casks=(
 	chatgpt
 	claude
 	claude-code@latest
+	cloudmounter
+	cmux
 	codex
 	codex-app
 	codexbar
+	comfy
 	discord
 	dockdoor
 	ente-auth
@@ -88,8 +93,10 @@ casks=(
 	google-chrome
 	helium-browser
 	hyperkey
+	icon-composer
 	ilok-license-manager
 	jordanbaird-ice
+	lm-studio
 	localsend
 	maccy
 	microsoft-edge
@@ -102,8 +109,11 @@ casks=(
 	motu-m-series
 	mp3tag
 	obs
+	ollama-app
 	opencode-desktop
+	siddharthvaddem/openscreen/openscreen
 	orbstack
+	parsec
 	pika
 	proton-mail
 	raspberry-pi-imager
@@ -112,6 +122,7 @@ casks=(
 	stats
 	steam
 	stremio
+	superwhisper
 	supacode
 	t3-code
 	tailscale-app
@@ -126,25 +137,47 @@ casks=(
 	zoom
 )
 
+mas_apps=(
+	"425264550:Disk Speed Test"
+)
+
 vscode_extensions=(
 	anthropic.claude-code
+	budparr.language-hugo-vscode
 	dbaeumer.vscode-eslint
 	ecmel.vscode-html-css
 	esbenp.prettier-vscode
-	github.copilot-chat
 	github.vscode-github-actions
 	golang.go
+	huggingface.huggingface-vscode-chat
+	ms-azuretools.vscode-containers
+	ms-playwright.playwright
+	ms-vscode-remote.remote-containers
 	ms-vscode-remote.remote-ssh
 	ms-vscode-remote.remote-ssh-edit
 	ms-vscode.live-server
 	ms-vscode.remote-explorer
+	ms-vscode.vscode-chat-customizations-evaluations
 	openai.chatgpt
 	redhat.vscode-yaml
 	shd101wyy.markdown-preview-enhanced
+	tamasfe.even-better-toml
 )
 
 log() {
 	printf '\n==> %s\n' "$1"
+}
+
+set_pmset() {
+	local power_source setting value
+
+	power_source="$1"
+	setting="$2"
+	value="$3"
+
+	if ! sudo pmset "$power_source" "$setting" "$value"; then
+		printf 'Skipping unsupported pmset setting: %s %s %s\n' "$power_source" "$setting" "$value"
+	fi
 }
 
 configure_passwordless_sudo() {
@@ -204,6 +237,7 @@ ensure_taps() {
 		anomalyco/tap
 		oven-sh/bun
 		philocalyst/tap
+		siddharthvaddem/openscreen
 		steipete/tap
 		xykong/tap
 	)
@@ -231,6 +265,46 @@ install_formulae() {
 	done
 }
 
+cask_already_present() {
+	local package="$1"
+
+	case "$package" in
+		balenaetcher)
+			[[ -e "/Applications/balenaEtcher.app" ]]
+			;;
+		cloudmounter)
+			[[ -e "/Applications/CloudMounter.app" ]]
+			;;
+		cmux)
+			[[ -e "/Applications/cmux.app" ]]
+			;;
+		comfy)
+			[[ -e "/Applications/ComfyUI.app" || -e "/Applications/Comfy Desktop.app" ]]
+			;;
+		icon-composer)
+			[[ -e "/Applications/Icon Composer.app" ]]
+			;;
+		lm-studio)
+			[[ -e "/Applications/LM Studio.app" ]]
+			;;
+		ollama-app)
+			[[ -e "/Applications/Ollama.app" ]]
+			;;
+		siddharthvaddem/openscreen/openscreen)
+			[[ -e "/Applications/Openscreen.app" ]]
+			;;
+		parsec)
+			[[ -e "/Applications/Parsec.app" ]]
+			;;
+		superwhisper)
+			[[ -e "/Applications/superwhisper.app" ]]
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
 install_casks() {
 	log "Installing Homebrew casks"
 	for package in "${casks[@]}"; do
@@ -239,17 +313,108 @@ install_casks() {
 			continue
 		fi
 
+		if cask_already_present "$package"; then
+			printf 'Already present outside Homebrew: %s\n' "$package"
+			continue
+		fi
+
 		brew install --cask "$package"
+	done
+}
+
+install_mas_apps() {
+	local installed_app_ids app app_id app_name
+
+	if [[ "${#mas_apps[@]}" -eq 0 ]]; then
+		return
+	fi
+
+	if ! command -v mas >/dev/null 2>&1; then
+		log "Skipping Mac App Store apps because mas is unavailable"
+		return
+	fi
+
+	if ! mas account >/dev/null 2>&1; then
+		log "Skipping Mac App Store apps because the App Store is not signed in"
+		return
+	fi
+
+	installed_app_ids="$(mas list | awk '{print $1}')"
+
+	log "Installing Mac App Store apps"
+	for app in "${mas_apps[@]}"; do
+		app_id="${app%%:*}"
+		app_name="${app#*:}"
+
+		if printf '%s\n' "$installed_app_ids" | grep -Fxq "$app_id"; then
+			printf 'Already installed: %s (%s)\n' "$app_name" "$app_id"
+			continue
+		fi
+
+		mas install "$app_id"
+		installed_app_ids="${installed_app_ids}"$'\n'"$app_id"
 	done
 }
 
 configure_macos_defaults() {
 	log "Configuring macOS defaults"
+
+	defaults write com.apple.batteryui.charging.mac com.apple.batteryui.charging.mac.prior.limit -int 80
+	set_pmset -b powermode 0
+	set_pmset -c powermode 2
+	set_pmset -c displaysleep 0
+
+	defaults write com.apple.AppleMultitouchTrackpad Dragging -bool true
+	defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool true
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+	defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
+	defaults write com.apple.menuextra.clock ShowSeconds -bool true
+	defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true
+	defaults -currentHost write com.apple.controlcenter Battery -int 8
+	defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool true
+	defaults -currentHost write com.apple.controlcenter Spotlight -int 8
+
 	defaults write com.apple.dock autohide -bool true
 	defaults write com.apple.dock autohide-delay -float 0
 	defaults write com.apple.dock autohide-time-modifier -float 0.5
+	defaults write com.apple.dock mineffect -string scale
 	defaults write com.apple.dock persistent-apps -array
+	defaults write com.apple.dock persistent-others -array
+
+	defaults write NSGlobalDomain AppleActionOnDoubleClick -string Fill
+	defaults write com.apple.WindowManager StandardHideDesktopIcons -bool true
+	defaults write com.apple.WindowManager HideDesktop -bool true
+	defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+	defaults write com.apple.WindowManager StandardHideWidgets -bool true
+	defaults write com.apple.WindowManager StageManagerHideWidgets -bool true
+	defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+	defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+	defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+
+	defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+	defaults write com.apple.finder AppleShowAllExtensions -bool true
+	defaults write com.apple.finder ShowPathbar -bool true
+	defaults write com.apple.finder ShowStatusBar -bool true
+
+	defaults write NSGlobalDomain KeyRepeat -int 2
+	defaults write NSGlobalDomain InitialKeyRepeat -int 15
+	defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+	defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+	defaults write NSGlobalDomain NSAutomaticInlinePredictionEnabled -bool false
+	defaults write NSGlobalDomain NSSmartReplyEnabled -bool false
+	defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+	defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+	defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+	log "Disable True Tone manually in System Settings > Displays; macOS does not expose a stable defaults key."
+
 	killall Dock >/dev/null 2>&1 || true
+	killall Finder >/dev/null 2>&1 || true
+	killall SystemUIServer >/dev/null 2>&1 || true
+	killall ControlCenter >/dev/null 2>&1 || true
 }
 
 install_config_dir() {
@@ -418,6 +583,7 @@ main() {
 	ensure_taps
 	install_formulae
 	install_casks
+	install_mas_apps
 	install_vscode_settings
 	install_vscode_extensions
 	install_config_dir
