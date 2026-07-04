@@ -12,6 +12,14 @@ export PAGER=less
 export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
+# cmux currently exports GHOSTTY_BIN_DIR to a directory that does not contain
+# the ghostty helper binary, which makes Ghostty's SSH terminfo cache miss.
+if [[ "$GHOSTTY_BIN_DIR" == "/Applications/cmux.app/Contents/MacOS" \
+  && ! -x "$GHOSTTY_BIN_DIR/ghostty" \
+  && -x "/Applications/cmux.app/Contents/Resources/bin/ghostty" ]]; then
+  export GHOSTTY_BIN_DIR="/Applications/cmux.app/Contents/Resources/bin"
+fi
+
 # Aliases
 alias in='brew install'
 alias un='brew uninstall'
@@ -53,4 +61,3 @@ fpath=(/Users/chris/.docker/completions $fpath)
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/chris/.lmstudio/bin"
 # End of LM Studio CLI section
-
