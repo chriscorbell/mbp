@@ -17,13 +17,13 @@ Use this repo to set up a new or factory-reset macOS machine for Chris. Treat th
 ## Desired State Files
 
 - `inventory/homebrew-taps.md`: Homebrew taps to add before installing packages.
-- `inventory/homebrew-formulae.md`: current installed Homebrew formula snapshot from this Mac. It includes dependencies, not only curated leaves.
+- `inventory/homebrew-formulae.md`: Homebrew leaves only (`brew leaves` output, some tap-qualified). Dependencies are not listed; `brew install` resolves them.
 - `inventory/homebrew-casks.md`: current installed Homebrew cask snapshot from this Mac.
 - `inventory/mas-apps.md`: Mac App Store apps. Install with `mas` only after the App Store is signed in.
 - `inventory/apps.md`: tracked non-native app bundles to restore. This is not necessarily every app bundle physically present on the source Mac.
 - `inventory/vscode-extensions.md`: VS Code extensions to install with the `code` CLI.
 - `inventory/agent-skills.md`: agent skills to reinstall with skills.sh.
-- `.zshrc`, `.config/`, `vscode/settings.json`: tracked user config (includes the full sketchybar config).
+- `.zshrc`, `.finicky.js`, `.config/`, `vscode/settings.json`: tracked user config (includes the full sketchybar config).
 - `docs/macos-settings.md`: macOS defaults and manual settings, including Rectangle and screenshot location.
 - `docs/dotfiles.md`: install rules for tracked config.
 - `docs/ai-agents.md`: pi + Ollama local agent, Claude Code plugins, Codex settings.
@@ -93,7 +93,6 @@ Known current cask app bundle names that may differ from cask names:
 - `flux-markdown`: `/Applications/FluxMarkdown.app`
 - `helium-browser`: `/Applications/Helium.app`
 - `ilok-license-manager`: `/Applications/iLok License Manager.app`
-- `jordanbaird-ice`: `/Applications/Ice.app`
 - `localsend`: `/Applications/LocalSend.app`
 - `motu-m-series`: `/Applications/MOTU M Series System Extension.app`
 - `opencode-desktop`: `/Applications/OpenCode.app`
@@ -153,6 +152,25 @@ killall ControlCenter >/dev/null 2>&1 || true
 ### 8. Manual Setup
 
 Use `docs/manual-setup.md` as the final checklist. Verify non-native apps against `inventory/apps.md`. Do not try to bypass account sign-ins, privacy prompts, or license activation.
+
+## Audit Mode
+
+When asked to "audit this Mac against the repo", produce a drift report and change nothing. Compare each desired-state file against the live machine, in both directions:
+
+- Taps: `brew tap` vs `inventory/homebrew-taps.md`.
+- Formulae: `brew leaves` vs `inventory/homebrew-formulae.md`.
+- Casks: `brew list --cask` vs `inventory/homebrew-casks.md`.
+- MAS apps: `mas list` vs `inventory/mas-apps.md`.
+- Tracked app bundles: entries in `inventory/apps.md` vs what exists on disk.
+- VS Code extensions: `code --list-extensions` vs `inventory/vscode-extensions.md`.
+- Agent skills: skill names in `~/.agents/.skill-lock.json` vs `inventory/agent-skills.md`.
+- Claude Code plugins: `claude plugin list` (or `~/.claude/plugins/installed_plugins.json`) vs `docs/ai-agents.md`.
+- Dotfiles: `diff` each tracked file (`.zshrc`, `.finicky.js`, `vscode/settings.json`, every file under `.config/`) against its live counterpart.
+- macOS defaults: `defaults read` each key documented in `docs/macos-settings.md` (including the Rectangle domain) vs the documented value.
+- SMB automount: `/etc/auto_master` line and the hosts/shares in `/etc/auto_smb` (needs sudo; ignore the password line) vs `docs/smb-automount.md`.
+- Shortcuts: `shortcuts list` contains `Rename Screenshot from Image Content`.
+
+Report in three groups: **on the Mac but not in the repo**, **in the repo but not on the Mac**, and **tracked but different** (show the diff or both values). Do not fix anything; the user decides per item which side is correct and then updates the repo or the machine.
 
 ## Optional Passwordless Sudo
 

@@ -24,7 +24,6 @@ Sign into:
 - Telegram
 - Tailscale
 - Visual Studio Code
-- Zed
 - Zoom
 - Any other account-backed apps installed during setup
 
@@ -38,7 +37,7 @@ Restore these from a private source, not from this repo:
 - rclone remotes
 - Git signing config
 - SMB/NAS password for the `~/smb` automount (Bitwarden; see `docs/smb-automount.md`)
-- Codex, Claude, OpenCode, cmux, atuin, Raycast, Zed, and other private app state
+- Codex, Claude, OpenCode, cmux, atuin, Raycast, and other private app state
 - pi provider auth (re-login inside pi; see `docs/ai-agents.md`)
 
 ## Privacy And Security Permissions
@@ -47,8 +46,6 @@ Grant permissions in System Settings > Privacy & Security as prompted.
 
 Accessibility:
 
-- Hyperkey
-- Maccy
 - Raycast
 - Rectangle
 - Wispr Flow
@@ -57,8 +54,6 @@ Accessibility:
 
 Input Monitoring:
 
-- Hyperkey
-- Maccy
 - Raycast
 - Rectangle
 - Wispr Flow
@@ -88,7 +83,6 @@ Full Disk Access:
 - Terminal
 - Ghostty
 - VS Code
-- Zed
 - Backup and sync tools
 - Developer agents as needed
 
@@ -105,9 +99,6 @@ Review login items/background items for:
 - BetterDisplay
 - Caffeine
 - Finicky
-- Hyperkey
-- Ice
-- Maccy
 - Raycast
 - Rectangle
 - Tailscale

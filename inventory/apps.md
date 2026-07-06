@@ -27,12 +27,9 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | Ghostty | `/Applications/Ghostty.app` |
 | Google Chrome | `/Applications/Google Chrome.app` |
 | Helium | `/Applications/Helium.app` |
-| Hyperkey | `/Applications/Hyperkey.app` |
-| Ice | `/Applications/Ice.app` |
 | Icon Composer | `/Applications/Icon Composer.app` |
 | iLok License Manager | `/Applications/iLok License Manager.app` |
 | LocalSend | `/Applications/LocalSend.app` |
-| Maccy | `/Applications/Maccy.app` |
 | Microsoft Edge | `/Applications/Microsoft Edge.app` |
 | Microsoft Excel | `/Applications/Microsoft Excel.app` |
 | Microsoft Outlook | `/Applications/Microsoft Outlook.app` |
@@ -73,7 +70,6 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | VLC | `/Applications/VLC.app` |
 | Windows App | `/Applications/Windows App.app` |
 | Wispr Flow | `/Applications/Wispr Flow.app` |
-| Zed | `/Applications/Zed.app` |
 | Zen | `/Applications/Zen.app` |
 | zoom.us | `/Applications/zoom.us.app` |
 | Autodesk Fusion Service Utility | `/Users/chris/Applications/Autodesk Fusion Service Utility.app` |

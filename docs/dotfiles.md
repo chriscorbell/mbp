@@ -3,6 +3,7 @@
 Tracked config lives in:
 
 - `.zshrc`
+- `.finicky.js`
 - `.config/`
 - `vscode/settings.json`
 
@@ -63,6 +64,23 @@ Open a new shell after installing:
 ```sh
 exec zsh
 ```
+
+## `.finicky.js`
+
+Finicky routes links opened from Outlook/Teams to Microsoft Edge and everything else to Zen (both browsers are in the cask inventory). Install with the same backup rule as `.zshrc`:
+
+```sh
+target="$HOME/.finicky.js"
+backup="$HOME/.finicky.js.pre-mbp.backup"
+
+if [ -f "$target" ] && ! cmp -s .finicky.js "$target"; then
+  [ -f "$backup" ] || cp "$target" "$backup"
+fi
+
+cp .finicky.js "$target"
+```
+
+Finicky must also be set as the default browser and allowed as a login item (see `docs/manual-setup.md`).
 
 ## Hush Login
 

@@ -22,11 +22,8 @@ font-sf-mono-nerd-font-ligaturized
 ghostty
 google-chrome
 helium-browser
-hyperkey
 ilok-license-manager
-jordanbaird-ice
 localsend
-maccy
 microsoft-edge
 microsoft-excel
 microsoft-outlook
@@ -55,6 +52,5 @@ visual-studio-code
 vlc
 windows-app
 wispr-flow
-zed
 zen
 zoom

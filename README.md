@@ -22,7 +22,7 @@ The agent entry point is [AGENTS.md](AGENTS.md).
 - Tracked app bundles: [inventory/apps.md](inventory/apps.md)
 - VS Code extensions: [inventory/vscode-extensions.md](inventory/vscode-extensions.md)
 - Agent skills: [inventory/agent-skills.md](inventory/agent-skills.md)
-- Dotfiles and app config: [.zshrc](.zshrc), [.config](.config), [vscode/settings.json](vscode/settings.json)
+- Dotfiles and app config: [.zshrc](.zshrc), [.finicky.js](.finicky.js), [.config](.config), [vscode/settings.json](vscode/settings.json)
 - macOS settings (including Rectangle and screenshots): [docs/macos-settings.md](docs/macos-settings.md)
 - AI agents and plugins (pi + Ollama, Claude Code, Codex): [docs/ai-agents.md](docs/ai-agents.md)
 - SMB automount under `~/smb`: [docs/smb-automount.md](docs/smb-automount.md)
@@ -41,6 +41,8 @@ Sensitive work is deliberately left as agent-mediated work rather than hidden in
 Do not add secrets or private machine state to this repo. That includes SSH keys, API keys, app tokens, Bitwarden data, iCloud data, license files, private rclone remotes, private Codex/Claude/GitHub auth material, and app-specific cloud sync state.
 
 ## Maintenance
+
+To check for drift, ask an agent: `Audit this Mac against this repo. Follow the Audit Mode section of AGENTS.md.` It reports differences without changing anything.
 
 When this Mac changes, update the relevant inventory or doc directly. Prefer small, reviewable changes:
 
