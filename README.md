@@ -21,6 +21,7 @@ The agent entry point is [AGENTS.md](AGENTS.md).
 - Mac App Store apps: [inventory/mas-apps.md](inventory/mas-apps.md)
 - Tracked app bundles: [inventory/apps.md](inventory/apps.md)
 - VS Code extensions: [inventory/vscode-extensions.md](inventory/vscode-extensions.md)
+- Global CLI tools: [inventory/cli-tools.md](inventory/cli-tools.md)
 - Agent skills: [inventory/agent-skills.md](inventory/agent-skills.md)
 - Dotfiles and app config: [.zshrc](.zshrc), [.finicky.js](.finicky.js), [.config](.config), [vscode/settings.json](vscode/settings.json)
 - macOS settings (including Rectangle and screenshots): [docs/macos-settings.md](docs/macos-settings.md)

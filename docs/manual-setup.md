@@ -122,13 +122,17 @@ These apps are present in `inventory/apps.md` but are not currently installed as
 - Adobe Photoshop 2026 - Install through Adobe Creative Cloud after signing in
 - Autodesk Fusion - Autodesk installer; current app bundles live in `~/Applications`
 - [Busylight4MSTeams](https://www.plenom.com/downloads/download-software/) - Plenom software downloads
-- Clips - Current source is not captured; verify whether it should be restored
+- [Clips](https://clips.agent-native.com) - Tauri menu-bar app (bundle id `com.clips.tray`); self-updates from `clips.agent-native.com`. After installing, restore its autostart LaunchAgent:
+
+  ```sh
+  cp launchd/Clips.plist ~/Library/LaunchAgents/Clips.plist
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/Clips.plist
+  ```
 - [FL Studio 2025](https://www.image-line.com/fl-studio/download) - Image-Line installer
 - [FL Cloud Plugins](https://www.image-line.com/fl-cloud/whats-included#plugins) - Install/update through FL Cloud after signing into FL Studio
 - Icon Composer - Apple developer app; restore from the current Apple distribution source
 - Archetype Gojira X - Neural DSP installer and iLok activation
 - [Ollama](https://ollama.com/download) - Ollama desktop app; afterwards restore the pi local-agent model per `docs/ai-agents.md`
-- Openscreen - Current source is not captured; verify before restore
 
 ## Other Manual Follow-Ups
 

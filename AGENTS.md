@@ -22,7 +22,9 @@ Use this repo to set up a new or factory-reset macOS machine for Chris. Treat th
 - `inventory/mas-apps.md`: Mac App Store apps. Install with `mas` only after the App Store is signed in.
 - `inventory/apps.md`: tracked non-native app bundles to restore. This is not necessarily every app bundle physically present on the source Mac.
 - `inventory/vscode-extensions.md`: VS Code extensions to install with the `code` CLI.
+- `inventory/cli-tools.md`: global CLI tools installed outside Homebrew (npm -g, uv tools, go, rustup).
 - `inventory/agent-skills.md`: agent skills to reinstall with skills.sh.
+- `launchd/`: user LaunchAgents to restore (currently the Clips autostart; installed per `docs/manual-setup.md`).
 - `.zshrc`, `.finicky.js`, `.config/`, `vscode/settings.json`: tracked user config (includes the full sketchybar config).
 - `docs/macos-settings.md`: macOS defaults and manual settings, including Rectangle and screenshot location.
 - `docs/dotfiles.md`: install rules for tracked config.
@@ -70,7 +72,7 @@ fi
 brew update
 ```
 
-Add taps from `inventory/homebrew-taps.md`, then install formulae and casks from the inventory files. Skip blank lines and comments.
+Add taps from `inventory/homebrew-taps.md`, then install formulae and casks from the inventory files. Skip blank lines and comments. If Homebrew refuses a third-party tap as untrusted, run `brew trust <tap>` for taps in the inventory — they are already vetted.
 
 Suggested pattern:
 
@@ -143,6 +145,7 @@ killall ControlCenter >/dev/null 2>&1 || true
 
 ### 7. Agents, Services, And Automations
 
+- Install global CLI tools from `inventory/cli-tools.md`.
 - Install agent skills from `inventory/agent-skills.md` with skills.sh.
 - Set up Claude Code plugins and Codex settings from `docs/ai-agents.md`. The pi + Ollama agent restores from its own repo (linked there) after Ollama is installed.
 - Start sketchybar per the Sketchybar section of `docs/dotfiles.md`.
@@ -163,7 +166,9 @@ When asked to "audit this Mac against the repo", produce a drift report and chan
 - MAS apps: `mas list` vs `inventory/mas-apps.md`.
 - Tracked app bundles: entries in `inventory/apps.md` vs what exists on disk.
 - VS Code extensions: `code --list-extensions` vs `inventory/vscode-extensions.md`.
+- Global CLI tools: `npm ls -g --depth=0`, `uv tool list`, `ls ~/go/bin`, and `command -v rustup` vs `inventory/cli-tools.md`.
 - Agent skills: skill names in `~/.agents/.skill-lock.json` vs `inventory/agent-skills.md`.
+- pi agent: `diff -r ~/.pi/agent` (excluding `auth.json`, `sessions/`, `node_modules/`) against the `agent/` directory of the `pi-coding-agent-config` checkout (`~/pi-coding-agent-config`), plus `~/.pi/web-search.json` and the installed `local.ollama-env.plist` vs that repo. Report drift there as "update the pi repo", not this one.
 - Claude Code plugins: `claude plugin list` (or `~/.claude/plugins/installed_plugins.json`) vs `docs/ai-agents.md`.
 - Dotfiles: `diff` each tracked file (`.zshrc`, `.finicky.js`, `vscode/settings.json`, every file under `.config/`) against its live counterpart.
 - macOS defaults: `defaults read` each key documented in `docs/macos-settings.md` (including the Rectangle domain) vs the documented value.
