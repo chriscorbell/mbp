@@ -1,0 +1,173 @@
+#!/bin/bash
+
+CONFIG_DIR="$HOME/.config/sketchybar"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+source "$CONFIG_DIR/colors.sh"
+
+FONT="JetBrainsMono Nerd Font"
+
+##### Bar: a floating, rounded, blurred pill ##################################
+sketchybar --bar \
+  height=38 \
+  y_offset=0 \
+  margin=0 \
+  corner_radius=0 \
+  border_width=0 \
+  border_color="$BAR_BORDER" \
+  blur_radius=80 \
+  color="$BAR_COLOR" \
+  padding_left=0 \
+  padding_right=0 \
+  topmost=off \
+  shadow=off
+
+##### Defaults applied to every item #########################################
+default=(
+  padding_left=4
+  padding_right=4
+  icon.font="$FONT:Bold:17.0"
+  label.font="$FONT:Semibold:14.0"
+  icon.color="$TEXT"
+  label.color="$TEXT"
+  icon.padding_left=8
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=8
+  background.height=24
+  background.corner_radius=8
+  background.color="$ITEM_BG"
+  background.border_width=1
+  background.border_color="$ITEM_BORDER"
+  background.drawing=off
+)
+sketchybar --default "${default[@]}"
+
+##### LEFT: focused app ######################################################
+sketchybar --add item front_app left \
+  --set front_app icon.color="$BLUE" \
+        label.color="$TEXT" \
+        background.drawing=off \
+        script="$PLUGIN_DIR/front_app.sh" \
+  --subscribe front_app front_app_switched
+
+##### Shared popup styling ###################################################
+POPUP_ROW_HEIGHT=22
+popup=(
+  popup.blur_radius=80
+  popup.height="$POPUP_ROW_HEIGHT"
+  popup.background.color="$ITEM_BG"
+  popup.background.corner_radius=8
+  popup.background.border_width=1
+  popup.background.border_color="$ITEM_BORDER"
+  popup.y_offset=4
+)
+# Popup rows carry no icon, so drop the inherited icon padding (the global defaults
+# reserve it on the left for icon+label bar items) and pad both label sides equally
+# — otherwise every tooltip looks left-heavy.
+popup_pad=(icon.padding_left=0 icon.padding_right=0 label.padding_left=5 label.padding_right=5)
+
+##### LEFT: portable status ###################################################
+sketchybar --add item caffeine left \
+  --set caffeine icon="󰅶" icon.color="$SUBTEXT" label.drawing=off update_freq=30 \
+        script="$PLUGIN_DIR/caffeine.sh" \
+        click_script="$PLUGIN_DIR/caffeine.sh toggle"
+
+sketchybar --add item weather left \
+  --set weather icon="󰖙" icon.color="$YELLOW" update_freq=900 \
+        script="$PLUGIN_DIR/weather.sh" \
+        popup.align=left popup.drawing=off "${popup[@]}" \
+        click_script="open -a Weather" \
+  --subscribe weather mouse.entered mouse.exited
+for row in location condition feels wind extra; do
+  sketchybar --add item weather.$row popup.weather \
+    --set weather.$row icon.drawing=off label.align=left label.width=dynamic \
+          "${popup_pad[@]}" background.height="$POPUP_ROW_HEIGHT" background.drawing=off
+done
+
+##### LEFT: Codex + Claude + Copilot usage (via codexbar) ####################
+# All three share codexbar.sh: on hover it toggles the popup as a tooltip; on
+# codex's scheduled update it fetches once and populates all three. Only codex
+# has update_freq, so only codex triggers the (networked) refresh branch.
+# Each item has two popup children: .p (primary window) and .s (secondary).
+add_usage() { # $1 item  $2 icon  $3 icon.color  [$4 extra --set args...]
+  sketchybar --add item "$1" left \
+    --set "$1" icon="$2" icon.color="$3" label="…" \
+          script="$PLUGIN_DIR/codexbar.sh" \
+          popup.align=left "${popup[@]}" "${@:4}" \
+    --subscribe "$1" mouse.entered mouse.exited
+  local c
+  for c in p s; do
+    sketchybar --add item "$1.$c" "popup.$1" \
+      --set "$1.$c" label.align=left label.width=dynamic background.height="$POPUP_ROW_HEIGHT" \
+            "${popup_pad[@]}" background.drawing=off
+  done
+}
+add_usage copilot "󰊤" "$BLUE"
+add_usage claude  "󰛄" "$PEACH"
+add_usage codex   "󰚩" "$TEAL" update_freq=300
+
+##### LEFT: now playing #######################################################
+sketchybar --add item nowplaying left \
+  --set nowplaying icon="󰐊" icon.color="$GREEN" \
+        update_freq=5 drawing=off \
+        script="$PLUGIN_DIR/nowplaying.sh"
+# Smooth scrolling is driven by a background daemon (sub-second frames).
+pkill -f nowplaying-scroll.sh 2>/dev/null
+("$PLUGIN_DIR/nowplaying-scroll.sh" >/dev/null 2>&1 &)
+
+##### RIGHT (added right-to-left; first added = far right) ####################
+sketchybar --add item clock right \
+  --set clock update_freq=1 icon="󰥔" icon.color="$LAVENDER" \
+        script="$PLUGIN_DIR/clock.sh" \
+        click_script="open -a Calendar"
+
+sketchybar --add item battery right \
+  --set battery update_freq=120 \
+        script="$PLUGIN_DIR/battery.sh" \
+        popup.align=right "${popup[@]}" \
+        click_script="open x-apple.systempreferences:com.apple.Battery-Settings.extension" \
+  --subscribe battery system_woke power_source_change mouse.entered mouse.exited
+sketchybar --add item battery.detail popup.battery \
+  --set battery.detail icon.drawing=off label="…" "${popup_pad[@]}" background.drawing=off
+
+sketchybar --add item wifi right \
+  --set wifi update_freq=30 icon="󰤨" icon.color="$SKY" \
+        script="$PLUGIN_DIR/wifi.sh" \
+        click_script="open x-apple.systempreferences:com.apple.Network-Settings.extension"
+
+sketchybar --add item volume right \
+  --set volume icon.color="$PEACH" \
+        script="$PLUGIN_DIR/volume.sh" \
+        click_script="open x-apple.systempreferences:com.apple.Sound-Settings.extension" \
+  --subscribe volume volume_change
+
+sketchybar --add item disk right \
+  --set disk icon="󰋊" icon.color="$GREEN" update_freq=300 \
+        script="$PLUGIN_DIR/disk.sh"
+
+sketchybar --add item memory right \
+  --set memory update_freq=5 icon="󰍛" icon.color="$TEAL" \
+        script="$PLUGIN_DIR/memory.sh" \
+        popup.align=right "${popup[@]}" \
+        click_script="open -na Ghostty --args -e /opt/homebrew/bin/btop" \
+  --subscribe memory mouse.entered mouse.exited
+for n in 0 1 2 3 4; do
+  sketchybar --add item memory.proc.$n popup.memory \
+    --set memory.proc.$n label.align=left label.width=dynamic \
+          "${popup_pad[@]}" background.drawing=off drawing=off
+done
+
+sketchybar --add item cpu right \
+  --set cpu update_freq=5 icon="󰓅" icon.color="$GREEN" \
+        script="$PLUGIN_DIR/cpu.sh" \
+        popup.align=right "${popup[@]}" \
+        click_script="open -na Ghostty --args -e /opt/homebrew/bin/btop" \
+  --subscribe cpu mouse.entered mouse.exited
+for n in 0 1 2 3 4; do
+  sketchybar --add item cpu.proc.$n popup.cpu \
+    --set cpu.proc.$n label.align=left label.width=dynamic \
+          "${popup_pad[@]}" background.drawing=off drawing=off
+done
+
+##### Run every script once so the bar is populated immediately ###############
+sketchybar --update

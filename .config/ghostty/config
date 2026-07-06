@@ -1,8 +1,11 @@
 font-family = "JetBrains Mono Nerd Font"
 font-size = 15
-# theme = "GitHub Dark High Contrast"
-theme = "Dracula"
+theme = "Carbonfox"
+selection-background = #1f5f8b
 shell-integration-features = ssh-terminfo,ssh-env,sudo
 window-padding-x = 16
-# background-opacity = 0.75
-# background-blur = 80
+window-padding-y = 16
+background-opacity = 0.75
+background-blur = 80
+macos-titlebar-style = hidden
+confirm-close-surface = false

@@ -1,113 +1,52 @@
 # mbp
 
-this is a setup script for macOS that does the following:
+Agent-first setup notes for Chris's MacBook Pro.
 
-- enables passwordless sudo
-- installs homebrew
-- uses homebrew and mas to install my cli packages and gui apps
-- implements my dotfiles
-- configures the macOS settings listed below where scriptable
+This repo is the desired state for a new or factory-reset Mac. It is intentionally not a bootstrap script. The primary workflow is to point Codex at this repo and ask it to set up the machine from the repo contents.
 
-### installation
+## Use
 
-clone or download the repo, navigate into the repo directory with terminal and run `./mbp.sh`
+1. Clone this repo on the Mac.
+2. Open Codex in the repo root.
+3. Ask: `Set up this Mac using this repo. Follow AGENTS.md.`
+4. Keep the session open while Codex works through the phases, verifies each one, and reports any manual steps that need your account credentials or privacy approvals.
 
-sign into the Mac App Store before running the script so `mas` can install App Store apps.
+The agent entry point is [AGENTS.md](AGENTS.md).
 
-### restore notes
+## Source Of Truth
 
-the script handles packages, casks, tracked dotfiles, VS Code settings, VS Code extensions, and scriptable macOS defaults. the following still need manual attention after a fresh install:
+- Homebrew taps: [inventory/homebrew-taps.md](inventory/homebrew-taps.md)
+- Homebrew formulae: [inventory/homebrew-formulae.md](inventory/homebrew-formulae.md)
+- Homebrew casks: [inventory/homebrew-casks.md](inventory/homebrew-casks.md)
+- Mac App Store apps: [inventory/mas-apps.md](inventory/mas-apps.md)
+- Tracked app bundles: [inventory/apps.md](inventory/apps.md)
+- VS Code extensions: [inventory/vscode-extensions.md](inventory/vscode-extensions.md)
+- Agent skills: [inventory/agent-skills.md](inventory/agent-skills.md)
+- Dotfiles and app config: [.zshrc](.zshrc), [.config](.config), [vscode/settings.json](vscode/settings.json)
+- macOS settings (including Rectangle and screenshots): [docs/macos-settings.md](docs/macos-settings.md)
+- AI agents and plugins (pi + Ollama, Claude Code, Codex): [docs/ai-agents.md](docs/ai-agents.md)
+- SMB automount under `~/smb`: [docs/smb-automount.md](docs/smb-automount.md)
+- Shortcuts automations: [docs/shortcuts-automations.md](docs/shortcuts-automations.md)
+- Manual installs and restore checks: [docs/manual-setup.md](docs/manual-setup.md)
+- Dotfile install rules: [docs/dotfiles.md](docs/dotfiles.md)
 
-- disable true tone in system settings -> displays
-- sign into iCloud, App Store, Adobe Creative Cloud, Bitwarden, ChatGPT, Claude, Codex, GitHub CLI, Microsoft apps, Proton Mail, Steam, Telegram, Tailscale, Zoom, and any other account-backed apps
-- restore SSH keys and any private config that is intentionally not tracked here
-- review login items/background items for apps like BetterDisplay, Caffeine, DockDoor, Finicky, Hyperkey, Ice, Maccy, Raycast, Rectangle, Stats, Tailscale, Wispr Flow, and any agent apps
-- grant privacy permissions in system settings -> privacy & security:
-  - accessibility: Hyperkey, Maccy, Raycast, Rectangle, Wispr Flow, DockDoor, BetterDisplay, Stats, and any window/keyboard automation tools
-  - input monitoring: Hyperkey, Maccy, Raycast, Rectangle, Wispr Flow, and terminal/editor apps if prompted
-  - screen & system audio recording: OBS, Zoom, Teams, Discord, Wispr Flow, and screenshot/screen-share tools
-  - microphone: OBS, Zoom, Teams, Discord, Wispr Flow, browsers, and audio tools
-  - full disk access: terminal, Ghostty, VS Code, Zed, backup/sync tools, and developer agents as needed
-  - automation: Raycast, terminal/editor apps, and developer agents as prompted
-- restore or re-export app-specific config for Raycast, Zed, rclone, atuin, opencode, cmux, Codex, Claude, and git; do not commit secrets directly to this repo
-- verify audio/device extensions for MOTU M Series, iLok License Manager, Adobe apps, BetterDisplay, and virtual display/audio tools after reboot
+## What The Agent Should Do
 
-### manual app installs
+Codex should use the plain inventories and docs to perform an idempotent setup. It should inspect the current machine first, install missing packages, copy tracked config with backups, apply scriptable macOS defaults, verify app bundles against the tracked restore set, and leave a clear list of manual follow-up items.
 
-these apps are present on this Mac but are not installed by the script because no reliable Homebrew cask or Mac App Store source was found:
+Sensitive work is deliberately left as agent-mediated work rather than hidden inside a script. Codex should ask before changing sudoers, overwriting existing config, or making choices that require credentials.
 
-- [Busylight4MSTeams](https://www.plenom.com/downloads/download-software/) - Plenom software downloads
-- [FL Studio 2025](https://www.image-line.com/fl-studio/download) - Image-Line installer
-- [FL Cloud Plugins](https://www.image-line.com/fl-cloud/whats-included#plugins) - install/update through FL Cloud after signing into FL Studio
-- [PTSBuilder](https://github.com/chriscorbell/PTSBuilder) - local/custom app source
-- [QLCodec-mkv](https://github.com/Oil3/Mkv-Quicklook) - Quick Look MKV plugin
-- [Reolink](https://reolink.com/software-and-manual/) - Reolink client download
-- [WinDiskWriter](https://github.com/TechUnRestricted/windiskwriter) - Windows USB writer for macOS
+## What Is Not Tracked
 
-# macOS settings
+Do not add secrets or private machine state to this repo. That includes SSH keys, API keys, app tokens, Bitwarden data, iCloud data, license files, private rclone remotes, private Codex/Claude/GitHub auth material, and app-specific cloud sync state.
 
-### battery
+## Maintenance
 
-charge limit = 80%
-energy mode on battery = auto
-energy mode on power adapter = high
+When this Mac changes, update the relevant inventory or doc directly. Prefer small, reviewable changes:
 
-### accessibility
-
-pointer control -> trackpad options:
-
-- use trackpad for dragging = enabled
-
-### menu bar
-
-clock: show time with seconds = enabled
-remove spotlight
-battery: show percentage = enabled
-
-### desktop & dock
-
-remove all items from dock
-set dock to autohide
-minimize window animation = scale
-title bar double-click action = fill
-show items = uncheck both on desktop and in stage manager
-click wallpaper to show desktop = only in stage manager
-show widgets = uncheck both on desktop and in stage manager
-drag windows to left or right edge of screen to tile = disabled
-drag windows to menu bar to fill screen = disabled
-hold option key while dragging windows to tile = disabled
-dock autohide = true
-dock autohide-delay = 0.0
-dock autohide-time-modifier = 0.5
-
-### finder
-
-show all extensions = true
-show path = true
-show status bar = true
-
-### display
-
-true tone = disabled
-
-### lock screen
-
-turn display off on power adapter when inactive = never
-
-### keyboard
-
-key repeat rate = fastest
-delay until repeat = shortest
-input sources = us -> edit:
-
-- correct spelling automatically = disabled
-- capitalize words automatically = disabled
-- show inline predictive text = disabled
-- show suggested replies = disabled
-- add period with double-space = disabled
-- use smart quotes and dashes = disabled
-
-### trackpad
-
-tap to click = enabled
-natural scrolling = disabled
+- Add or remove Homebrew packages in `inventory/homebrew-*.md`.
+- Refresh the tracked app bundle restore set in `inventory/apps.md`.
+- Add or remove VS Code extensions in `inventory/vscode-extensions.md`.
+- Update manual installers in `docs/manual-setup.md`.
+- Update macOS preferences in `docs/macos-settings.md`.
+- Commit only stable desired state, not temporary local experiments.

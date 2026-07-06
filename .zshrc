@@ -57,7 +57,3 @@ source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/chris/.docker/completions $fpath)
 # End of Docker CLI completions
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/chris/.lmstudio/bin"
-# End of LM Studio CLI section
