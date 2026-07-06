@@ -173,7 +173,7 @@ When asked to "audit this Mac against the repo", produce a drift report and chan
 - Dotfiles: `diff` each tracked file (`.zshrc`, `.finicky.js`, `vscode/settings.json`, every file under `.config/`) against its live counterpart.
 - macOS defaults: `defaults read` each key documented in `docs/macos-settings.md` (including the Rectangle domain) vs the documented value.
 - SMB automount: `/etc/auto_master` line and the hosts/shares in `/etc/auto_smb` (needs sudo; ignore the password line) vs `docs/smb-automount.md`.
-- Shortcuts: `shortcuts list` contains `Rename Screenshot from Image Content`.
+- Shortcuts: `shortcuts list` contains `Rename Screenshot from Image Content`. That command can return empty output in a non-interactive shell; fall back to `sqlite3 ~/Library/Shortcuts/Shortcuts.sqlite "select ZNAME from ZSHORTCUT where ZTOMBSTONED=0;"` before reporting the shortcut missing.
 
 Report in three groups: **on the Mac but not in the repo**, **in the repo but not on the Mac**, and **tracked but different** (show the diff or both values). Do not fix anything; the user decides per item which side is correct and then updates the repo or the machine.
 
