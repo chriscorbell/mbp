@@ -1,7 +1,7 @@
 #!/bin/bash
 # Refreshes the current track into np_full. The nowplaying-scroll.sh daemon
 # reads that file and handles the scrolling/label. Falls back to Spotify/Music
-# AppleScript, then the Zen window title, if MediaRemote has no playing item.
+# AppleScript. If no supported player is actively playing, clears the item.
 
 track=""
 helper_source="$HOME/.config/sketchybar/helpers/nowplaying.swift"
@@ -18,12 +18,6 @@ if [ -z "$track" ]; then
       break
     fi
   done
-fi
-
-if [ -z "$track" ] && [ "$(osascript -e 'application "Zen" is running' 2>/dev/null)" = "true" ]; then
-  track="$(osascript -e 'tell application "System Events" to tell process "zen" to get value of attribute "AXTitle" of window 1' 2>/dev/null)"
-  track="${track% — Personal}"
-  track="${track% - YouTube}"
 fi
 
 mkdir -p "$HOME/.cache/sketchybar"
