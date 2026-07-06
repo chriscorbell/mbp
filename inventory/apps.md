@@ -44,7 +44,6 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | OBS | `/Applications/OBS.app` |
 | Ollama | `/Applications/Ollama.app` |
 | OpenCode | `/Applications/OpenCode.app` |
-| Openscreen | `/Applications/Openscreen.app` |
 | OrbStack | `/Applications/OrbStack.app` |
 | Pika | `/Applications/Pika.app` |
 | Proton Mail Uninstaller | `/Applications/Proton Mail Uninstaller.app` |

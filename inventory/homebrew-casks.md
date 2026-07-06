@@ -36,7 +36,6 @@ mp3tag
 nomachine
 obs
 opencode-desktop
-openscreen
 orbstack
 pika
 proton-mail

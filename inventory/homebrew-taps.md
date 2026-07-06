@@ -4,6 +4,5 @@ felixkratz/formulae
 nikitabobko/tap
 oven-sh/bun
 philocalyst/tap
-siddharthvaddem/openscreen
 steipete/tap
 xykong/tap
