@@ -24,7 +24,7 @@ The agent entry point is [AGENTS.md](AGENTS.md).
 - Global CLI tools: [inventory/cli-tools.md](inventory/cli-tools.md)
 - Agent skills: [inventory/agent-skills.md](inventory/agent-skills.md)
 - Dotfiles and app config: [.zshrc](.zshrc), [.finicky.js](.finicky.js), [.config](.config), [vscode/settings.json](vscode/settings.json)
-- macOS settings (including Rectangle and screenshots): [docs/macos-settings.md](docs/macos-settings.md)
+- macOS settings (including Rectangle, Maccy, and screenshots): [docs/macos-settings.md](docs/macos-settings.md)
 - AI agents and plugins (pi + Ollama, Claude Code, Codex): [docs/ai-agents.md](docs/ai-agents.md)
 - SMB automount under `~/smb`: [docs/smb-automount.md](docs/smb-automount.md)
 - Shortcuts automations: [docs/shortcuts-automations.md](docs/shortcuts-automations.md)

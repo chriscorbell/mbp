@@ -26,7 +26,7 @@ Use this repo to set up a new or factory-reset macOS machine for Chris. Treat th
 - `inventory/agent-skills.md`: agent skills to reinstall with skills.sh.
 - `launchd/`: user LaunchAgents to restore (currently the Clips autostart; installed per `docs/manual-setup.md`).
 - `.zshrc`, `.finicky.js`, `.config/`, `vscode/settings.json`: tracked user config (includes the full sketchybar config).
-- `docs/macos-settings.md`: macOS defaults and manual settings, including Rectangle and screenshot location.
+- `docs/macos-settings.md`: macOS defaults and manual settings, including Rectangle, Maccy, and screenshot location.
 - `docs/dotfiles.md`: install rules for tracked config.
 - `docs/ai-agents.md`: pi + Ollama local agent, Claude Code plugins, Codex settings.
 - `docs/smb-automount.md`: autofs SMB automount under `~/smb` (needs the SMB password from the user).

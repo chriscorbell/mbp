@@ -179,6 +179,37 @@ defaults write com.knollsoft.Rectangle toggleTodo -dict keyCode -int 11 modifier
 open -a Rectangle
 ```
 
+## Maccy
+
+Maccy stores all preferences in `defaults`. Desired state:
+
+- Open popup: ⇧⌘C, at the cursor; delete and pin shortcuts cleared
+- History: 512 items, sorted by last copied, 1.5 s preview delay
+- Paste by default with formatting removed
+- Title, search, and footer shown; menu bar icon hidden (sketchybar replaces the menu bar)
+- Clipboard types: text, rich text, HTML, images, file URLs
+
+Commands (quit Maccy first, reopen after):
+
+```sh
+defaults write org.p0deje.Maccy KeyboardShortcuts_popup -string '{"carbonKeyCode":8,"carbonModifiers":768}'
+defaults write org.p0deje.Maccy KeyboardShortcuts_delete -int 0
+defaults write org.p0deje.Maccy KeyboardShortcuts_pin -int 0
+defaults write org.p0deje.Maccy historySize -int 512
+defaults write org.p0deje.Maccy sortBy -string lastCopiedAt
+defaults write org.p0deje.Maccy previewDelay -int 1500
+defaults write org.p0deje.Maccy popupPosition -string cursor
+defaults write org.p0deje.Maccy pasteByDefault -int 1
+defaults write org.p0deje.Maccy removeFormattingByDefault -int 1
+defaults write org.p0deje.Maccy showTitle -int 1
+defaults write org.p0deje.Maccy showSearch -int 1
+defaults write org.p0deje.Maccy showFooter -int 1
+defaults write org.p0deje.Maccy showInStatusBar -int 0
+defaults write org.p0deje.Maccy windowSize -string "[450,800]"
+defaults write org.p0deje.Maccy enabledPasteboardTypes -array "public.utf8-plain-text" "public.rtf" "public.html" "public.tiff" "public.png" "public.file-url"
+open -a Maccy
+```
+
 ## Restart Affected Services
 
 Run after applying defaults:
