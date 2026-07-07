@@ -30,6 +30,7 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | Icon Composer | `/Applications/Icon Composer.app` |
 | iLok License Manager | `/Applications/iLok License Manager.app` |
 | LocalSend | `/Applications/LocalSend.app` |
+| Maccy | `/Applications/Maccy.app` |
 | Microsoft Edge | `/Applications/Microsoft Edge.app` |
 | Microsoft Excel | `/Applications/Microsoft Excel.app` |
 | Microsoft Outlook | `/Applications/Microsoft Outlook.app` |

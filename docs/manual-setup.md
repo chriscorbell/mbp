@@ -46,6 +46,7 @@ Grant permissions in System Settings > Privacy & Security as prompted.
 
 Accessibility:
 
+- Maccy
 - Raycast
 - Rectangle
 - Wispr Flow
@@ -54,6 +55,7 @@ Accessibility:
 
 Input Monitoring:
 
+- Maccy
 - Raycast
 - Rectangle
 - Wispr Flow
@@ -99,6 +101,7 @@ Review login items/background items for:
 - BetterDisplay
 - Caffeine
 - Finicky
+- Maccy
 - Raycast
 - Rectangle
 - Tailscale

@@ -24,6 +24,7 @@ google-chrome
 helium-browser
 ilok-license-manager
 localsend
+maccy
 microsoft-edge
 microsoft-excel
 microsoft-outlook
