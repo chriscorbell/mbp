@@ -8,18 +8,12 @@ The `supacode-cli` skill is not on this list: Supacode installs it itself into `
 
 ## Leonxlnx/taste-skill
 
-- brandkit
 - design-taste-frontend
 - full-output-enforcement
-- gpt-taste
-- high-end-visual-design
 - image-to-code
-- imagegen-frontend-mobile
-- imagegen-frontend-web
 - industrial-brutalist-ui
 - minimalist-ui
 - redesign-existing-projects
-- stitch-design-taste
 
 ## anthropics/skills
 
@@ -32,31 +26,17 @@ The `supacode-cli` skill is not on this list: Supacode installs it itself into `
 ## mattpocock/skills
 
 - caveman
-- design-an-interface
 - diagnose
-- edit-article
-- git-guardrails-claude-code
 - grill-me
 - grill-with-docs
 - handoff
 - improve-codebase-architecture
-- migrate-to-shoehorn
-- obsidian-vault
 - prototype
-- qa
-- request-refactor-plan
 - review
-- scaffold-exercises
 - setup-matt-pocock-skills
-- setup-pre-commit
 - tdd
-- teach
 - to-issues
 - to-prd
 - triage
-- ubiquitous-language
 - write-a-skill
-- writing-beats
-- writing-fragments
-- writing-shape
 - zoom-out

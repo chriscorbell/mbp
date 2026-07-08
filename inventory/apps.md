@@ -11,6 +11,7 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | Bitwarden | `/Applications/Bitwarden.app` |
 | Busylight4MSTeams | `/Applications/Busylight4MSTeams.app` |
 | Caffeine | `/Applications/Caffeine.app` |
+| ChatGPT | `/Applications/ChatGPT.app` |
 | Claude | `/Applications/Claude.app` |
 | Clips | `/Applications/Clips.app` |
 | cmux | `/Applications/cmux.app` |
@@ -54,7 +55,6 @@ Non-native `.app` bundles to restore on a fresh Mac. Native macOS apps under `/S
 | Rectangle | `/Applications/Rectangle.app` |
 | Steam | `/Applications/Steam.app` |
 | Stremio | `/Applications/Stremio.app` |
-| supacode | `/Applications/supacode.app` |
 | Tailscale | `/Applications/Tailscale.app` |
 | Telegram | `/Applications/Telegram.app` |
 | CCXProcess | `/Applications/Utilities/Adobe Creative Cloud Experience/CCXProcess/CCXProcess.app` |

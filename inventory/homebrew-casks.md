@@ -5,6 +5,7 @@ bambu-studio
 betterdisplay
 bitwarden
 caffeine
+chatgpt
 claude
 claude-code@latest
 cmux
@@ -45,7 +46,6 @@ raycast
 rectangle
 steam
 stremio
-supacode
 tailscale-app
 telegram
 utm
